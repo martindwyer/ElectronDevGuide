@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <form>
+
+    <label>Enter new task</label>
+    <input autofocus />
+    <div>
+      <button type="submit">Create</button>
+    </div>
+  </form>
+  <script>
+    const electron = require('electron');
+    const {
+      ipcRenderer
+    } = electron;
+
+    document.querySelector('form').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+
+      const value = document.querySelector('input').value;
+      ipcRenderer.send('task:add', value);
+
+    })
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+  <h1>Video Meta App</h1>
+  <form>
+    <div><label>Select a Video:</label></div>
+    <input type="file" accept="video/*" />
+    <button type="submit">Get Info</button>
+  </form>
+  <p id="result"></p>
+  <script>
+    const electron = require('electron');
+    const {
+      ipcRenderer
+    } = electron;
+
+    // Handling form submission
+    document.querySelector('form').addEventListener('submit', (evt) => {
+      evt.preventDefault();
+
+      // used 'debugger' to isolate objects on form and determine...
+      const {
+        path
+      } = document.querySelector('input').files[0];
+
+      ipcRenderer.send('video:submit', path);
+
+    })
+
+    ipcRenderer.on('video:metadata', (evt, duration) => {
+      document.getElementById('result').innerHTML = `Video is ${duration} seconds`;
+    })
+  </script>
+</body>
+
+</html>
